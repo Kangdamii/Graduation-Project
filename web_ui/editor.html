@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta harset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>coding editor</title>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="css/mdb.min.css" rel="stylesheet">
+        <!-- Your custom styles (optional) -->
+        <link href="css/style.min.css" rel="stylesheet">
+        
+        <style>
+            #codecontainer{
+                background:#0c0c0c;
+                width:900px;
+                height:300px;
+                margin:0 auto;
+                position: relative;
+                left: 200px;
+                top: 100px;
+            }
+            #img{
+                margin:0 auto;
+                position: relative;
+                left: 200px;
+                top: 100px;
+            }
+
+            .link-black a {
+            color: black;
+            }
+
+            .link-black a:hover {
+            color: #0056b3;
+            }
+
+            .link-black .active {
+            color: #0056b3;
+            }
+
+            .divider-small {
+            width: 30px;
+            background-color: rgba(0, 0, 0, .1);
+            height: 3px;
+            }
+
+            .sidebar{
+                position:fixed;
+                top:100px;
+                left:20px;
+            }
+        </style>
+    </head>
+
+    <body>
+    <!--Main Navigation-->
+    <header>
+        <!-- Navbar -->
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+        <div class="container">
+
+            <!-- Brand -->
+            <a class="navbar-brand waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">
+            <strong class="blue-text">CODING</strong>
+            </a>
+
+            <!-- Collapse -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Links -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <!-- Left -->
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                <a class="nav-link waves-effect" href="#">Home
+                    <span class="sr-only">(current)</span>
+                </a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link waves-effect" href="#">Create</a>
+                </li>
+                <li class="nav-item active">
+                <a class="nav-link waves-effect" href="#"
+                    target="_blank">Editor</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+        </nav>
+        <!-- Navbar -->
+        <div class="sidebar">
+
+            <!--Grid column-->
+            <div class="">
+    
+              <!-- Filter panel -->
+              <div class="mb-5">
+                <h5 class="font-weight-bold mb-3">Your file list</h5>
+    
+                <div class="divider-small mb-3"></div>
+    
+                <ul class="list-unstyled link-black">
+                  <li class="mb-2">
+                    <a href="" class="active">file number1</a>
+                  </li>
+                  <li class="mb-2">
+                    <a href="" class="">file number2</a>
+                  </li>
+                  <li class="mb-2">
+                    <a href="" class="">file number3</a>
+                  </li>
+                  <li class="mb-2">
+                    <a href="" class="">file number4</a>
+                  </li>
+                  <li class="mb-2">
+                    <a href="" class="">file number5</a>
+                  </li>
+                </ul>
+              </div>
+              </div>
+        </div>
+            </header>
+            <div style = 'float:right;'>
+              <p> -</p>
+              <p> -</p>
+              <p><input type ="button" class="btn btn-info" value = "RUN"></p>
+            </div>
+            <form>
+              <p><textarea col="50" row="40" id="codecontainer" style="color:antiquewhite"></textarea></p>         
+            </form>
+            <div id = img>
+            <img src="console_img.JPG" width="900" height="300">     
+          </div>
+          </div>
+    </body>
+</html>

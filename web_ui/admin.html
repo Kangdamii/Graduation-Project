@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta harset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Administrator Page</title>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="css/mdb.min.css" rel="stylesheet">
+        <!-- Your custom styles (optional) -->
+        <link href="css/style.min.css" rel="stylesheet">
+        <style>
+            #materialChecked2{
+                position:relative;
+                left:20px;
+            }
+            #table{
+                left:200px;
+                margin-right:auto;
+            }
+            .card{
+                left:200px;
+                width:800px;
+            }
+        </style>
+        </head>
+    <body>
+
+        <!--Main Navigation-->
+        <header>
+            <!-- Navbar -->
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+            <div class="container">
+        
+                <!-- Brand -->
+                <a class="navbar-brand waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">
+                <strong class="blue-text">CODING</strong>
+                </a>
+        
+                <!-- Collapse -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+        
+                <!-- Links -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        
+                <!-- Left -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                    <a class="nav-link waves-effect" href="#">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link waves-effect" href="#">Create</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link waves-effect" href="#"
+                            target="_blank">Editor</a>
+                      </li>
+                      <li class="nav-item active">
+                        <a class="nav-link waves-effect" href="#">Administrator
+                          <span class="sr-only">(current)</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+              <!-- Navbar -->
+        </header>
+
+            <!--Main layout-->
+            <main class="pt-5 mx-lg-5">
+              <div>-</div>
+              <div style = 'float:right;'>
+                <p><input type ="button" class="btn btn-info" value = "REMOVE USER"></p>
+                <p><input type ="button" class="btn btn-info" value = "CREATE USER"></p>
+              </div>
+                <div class="container-fluid mt-5">
+                <!--Grid row-->
+                <div class="row wow fadeIn">
+
+                <!--Grid column-->
+                <div class="col-md-6 mb-4">
+
+                <!--Card-->
+                <div class="card" >
+
+                <!--Card content-->
+                <div class="card-body">
+
+                 <!-- Table  -->
+                <table id = "table" class="table table-hover">
+                    <!-- Table head -->
+                    <thead class="blue-grey lighten-4">
+                        <tr>
+                        <th><div class="form-check pl-0">
+                            <input type="checkbox" class="form-check-input" id="materialChecked2">
+                            <label class="form-check-label" for="materialChecked2"></label>
+                            </div></th>
+                        <th>User name</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>User email</th>
+                        <th>User PW</th>
+                        <th>#VM</th>
+                        </tr>
+                    </thead>
+                <!-- Table head -->
+
+                <!-- Table body -->
+                <tbody>
+                  <tr>
+                    <th scope="row"><div class="form-check pl-0">
+                        <input type="checkbox" class="form-check-input" id="materialChecked2">
+                        <label class="form-check-label" for="materialChecked2"></label>
+                        </div></th>
+                    <td>testuser</td>
+                    <td>Donghwan</td>
+                    <td>Kim</td>
+                    <td>goddh94@gmail.com</td>
+                    <td>123456</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><div class="form-check pl-0">
+                        <input type="checkbox" class="form-check-input" id="materialChecked2">
+                        <label class="form-check-label" for="materialChecked2"></label>
+                        </div></th>
+                    <td>user1</td>
+                    <td>Dami</td>
+                    <td>Kang</td>
+                    <td>damigang2@gmail.com</td>
+                    <td>8585421</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><div class="form-check pl-0">
+                        <input type="checkbox" class="form-check-input" id="materialChecked2">
+                        <label class="form-check-label" for="materialChecked2"></label>
+                        </div></th>
+                    <td>user2</td>
+                    <td>Kamila</td>
+                    <td>Makmudova</td>
+                    <td>kamila.mqa@gmail.com</td>
+                    <td>654df34</td>
+                    <td>3</td>
+                  </tr>
+                  </tbody>
+                <!-- Table body -->
+              </table>
+              <!-- Table  -->
+                </div>
+                </div>
+                </div>
+                </div>
+                </div>
+            </main>
+
+    </body>
+</html>
