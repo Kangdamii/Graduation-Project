@@ -1,0 +1,131 @@
+<!-- {% import "macro/forms.html" as cm with context %} -->
+{% extends "base.html" %}
+
+{% block main %}
+
+<div class="view full-page-intro">
+  
+    <!-- Mask & flexbox options-->
+    <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+      
+      <!-- Content -->
+      <div class="container">
+
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+
+          <!--Grid column-->
+          <div class="col-md-6 col-xl-5 mb-4 white-text text-center text-md-left">
+
+            <h1 class="display-4 font-weight-bold">Make your own development environment</h1>
+
+            <hr class="hr-light">
+
+            <p>
+              <strong>Without using your computer resources</strong>
+            </p>
+
+            <p class="mb-4 d-none d-md-block">
+              <strong>You are able to run your code in this website. You can share your own environment with your colleague or students. Create your own code and make your own development environment.</strong>
+            </p>
+
+            
+            
+          </div>
+          <!--Grid column-->
+          
+          <!--Grid column-->
+          <div class="col-md-6 col-xl-7 mb-4">
+
+            <!--Card-->
+            <div class="card">
+
+              <!--Card content-->
+              <div class="card-body">
+                <div><i class="fas fa-user"></i>{{username}}님</div><br>
+                
+                <h4><i class="fas fa-users"></i>팀 초대목록</h4>
+                {% for i in range(invitelen) %}
+                <div class="row" id = cell{{i}}>
+                  <div style="margin-left: 5px;">
+                    <i class="fas fa-angle-right"></i>&nbsp;
+                    you have been invited from <b>{{teamid[i]}}</b> team by <b>{{fromid[i]}}</b>
+                    <button type = "submit" onclick="accept(this)" name="accept" id = {{i}} value = {{i}}>Accept</button>
+                    <button onclick="reject(this)" name="reject" id = {{i}} value = {{i}} style="width: 68px;">Reject</button>
+                  </div>
+                  <!-- <div class="cell">{{fromid[i]}}님이</div>
+                  <div class="cell">{{teamid[i]}}팀에 invite </div> -->
+                  <!-- <div class="col md-2">
+                    <button type = "submit" onclick="accept(this)" name="accept" id = {{i}} value = {{i}}>Accept</button>
+                    <button onclick="reject(this)" name="reject" id = {{i}} value = {{i}}>Reject</button>
+                  </div> -->
+                </div>
+                {% endfor %}
+
+            <form action="/teamlist" method = "post">
+                <div class="text-right">
+                <button class="btn btn-indigo btn-lg" type="submit" name="enter">See Team List</button></div>
+              </div>
+
+            </div>
+            <!--/.Card-->
+          </form>
+          </div>
+          <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+
+      </div>
+      <!-- Content -->
+
+    </div>
+    <!-- Mask & flexbox options-->
+
+  </div>
+  <!--===============================================================================================-->
+	<script src="static/vendor/bootstrap/js/popper.js"></script>
+	<script src="static/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="static/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="static/js/main.js"></script>
+	<script>
+    // globalId = $(this).attr('id');
+    //     var globalId;
+			
+		function accept(e){
+			alert("accept");
+			vm_id = e.getAttribute('id');
+			vm_id2 = 'cell' + vm_id;
+      document.getElementById(vm_id2).remove();
+			$.ajax({
+				type: 'POST',
+				url: 'http://192.168.0.96:5000/acceptinvite',
+				data: {idx : vm_id},
+				dataType : 'JSON',
+                success: function(){},
+				error: function(){
+					alert("error");
+				}
+			})
+		}
+    function reject(e){
+			alert("reject");
+			vm_id = e.getAttribute('id');
+			// vm_id = $(this).attr('id');
+			vm_id2 = 'cell' + vm_id;
+      document.getElementById(vm_id2).remove();
+			$.ajax({
+				type: 'POST',
+				url: 'http://192.168.0.96:5000/rejectinvite',
+				data: {idx: vm_id},
+				dataType : 'JSON',
+                success: function(){},
+				error: function(){
+          alert("error");
+				}
+			})
+		}
+	</script>
+{% endblock %}

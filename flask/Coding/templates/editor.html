@@ -1,0 +1,296 @@
+<!-- It has to provide drag and drop function at sidevar
+It can load the codes that wrote priviously
+It shows the list of codes that users have -->
+
+{% extends "base.html" %} 
+
+{% block main %}
+
+<style>
+    .sidebar{
+        /* width: 20%; */
+        margin-top: 70px;
+        margin-left: 60px;
+        /* background-color:burlywood; */
+    }
+    .box{
+        display: flex;
+    }
+    .File{
+        margin-left:15px;
+    }
+    .icon{
+        margin-right:10px;
+    }
+    i{
+        margin-right:2px;
+    }
+    /* .wrap{
+
+    } */
+    .wrap-border{
+        border-style: groove;
+    }
+    .sidebar{
+        color: white;
+        font-size: 1em;
+    }
+</style>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+<div style="display: flex; padding-top: 30px;">
+    <header style="width:15%; text-align:left; margin-top: 83px; padding-left: 100px;">
+        <div class="sidebar">
+            <a class="logo-wrapper waves-effect">
+                <img src="https://cdn.onlinewebfonts.com/svg/img_573752.png" style="width:60px;height:60px;" class="img-fluid" alt="Coding">
+            </a>
+            <div class="row">
+                <a class="icon" onclick="createFile()"><i class="far fa-edit"></i>Create File</a>
+            </div>
+            <div class="row">
+
+                <a class="icon" onclick="renameFile()"><i class="fas fa-pencil-alt"></i>Rename</a>
+
+                
+            </div>
+            <div class="row">
+
+                <a class="icon" onclick="deleteFile()"><i class="far fa-trash-alt"></i>Delete</a>
+                
+            </div>
+
+            
+            <div class="row">
+                --------------------------------
+            </div>
+            <div class="row" id="test">
+                <div class="Folder" id="defaultFolder"><i class="far fa-folder"></i><b>{{uid}}</b>
+                    <!-- <div class="File wrap-border">'<i class="far fa-file"></i>'Filename</div> -->
+                </div>
+            </div>
+        </div>
+    </header>
+    <main style="width: 75%; text-align:right; margin-top:70px; margin-left:-50px;">
+    <!-- <main class="mt-5 pt-4"> -->
+        <div class="container">
+            <div class="row">
+  
+                <!-- file tree view -->
+                <!-- code input -->
+                <div class="col-sm-6" style="margin-right: 10px; margin-left: -40px; margin-bottom: 10px; margin-top: 83px">
+                    <textarea name="code" id="code" cols="60" rows="31" style="background-color:#000000; color:azure"></textarea>
+                </div>
+                <!-- output -->
+
+                <div class="col-sm-6" style="margin-left: 10px; margin-right: 10px;">
+                    <p><a><button class="btn btn-indigo btn-lg" onclick="runcode()" name = 'run' id ='run' type="submit">run
+                        <i class="fas fa-play" ></i></button></a></p>
+                    <textarea name="output" id="output" cols="60" rows="28" style="background-color:#000000; color:azure"></textarea>
+                    <textarea name="vi_editor" id="vi" cols="60" rows="2px" style="background-color:#000000; color:azure"></textarea>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+</div>
+
+
+
+<script>
+    // globalId = $(this).attr('id');
+        var globalId;
+
+        $(function(){
+            $("#vi").keypress(function(e){
+                if(e.which == 13 && !e.shiftkey){
+                    var command = $("#vi").val();
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://192.168.0.96:5000/sendCommand',
+                        data: {
+                            command: command
+                        },
+                        dataType: 'JSON',
+                        success: function(data){
+                            document.getElementById("vi").value = "";
+
+                            document.getElementById("output").value += data.result;
+                        }
+                    })
+                }
+            });
+        });
+
+        function runcode(){
+            code = $("#code").val();
+            // alert(code);
+            $.ajax({
+                type: 'POST',
+                url: 'http://192.168.0.96:5000/runcode',
+                data: {
+                    filename : globalId,
+                    code: code
+                },
+                dataType : 'JSON',
+                success: function(data){
+                    document.getElementById("output").value = data.result;
+                    // $('#code').val(data.result);
+                    // text(data.result);
+                    // alert("successfully run");
+                }
+            });
+
+        }
+
+        function createFile(){
+            var newFileName = prompt("FileName: ");
+            if (newFileName =="" || newFileName == null){
+                alert("try again")
+            }
+            else{
+                var div = document.createElement("DIV");
+                div.innerHTML = '<i class="far fa-file"></i>' + newFileName;
+                div.id = newFileName;
+                div.className = "File";
+                
+                div.onmouseover= function () {
+                    // this.style.backgroundColor = "#efefef";
+                    this.style.fontWeight = "bold";
+                };
+                div.onmouseout = function () {
+                    // this.style.backgroundColor = "#ffffff";
+                    this.style.fontWeight = "normal";
+                };
+                div.onclick = function(){
+                    globalId = this.getAttribute('id');
+                    $(".File").removeClass('wrap-border');
+                    filenames = '<i class="far fa-file"></i>' + globalId;
+                    $("#filename").html(filenames);
+                    $(this).addClass('wrap-border');
+                    $.ajax({
+                    type: 'POST',
+                    url: 'http://192.168.0.96:5000/showcode',
+                    data: {
+                        filename : globalId
+                    },
+                    dataType : 'JSON',
+                    success: function(data){
+                        document.getElementById("code").value = data.result;
+                        // $('#code').val(data.result);
+                        // text(data.result);
+                        // alert("successfully load");
+                    }
+                });
+                            
+                };
+                
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://192.168.0.96:5000/addfile',
+                    data: {
+                        filename :newFileName
+                    },
+                    dataType : 'JSON',
+                    success: function(data){
+                        if(data.canCreate)
+                            document.getElementById("defaultFolder").appendChild(div);
+                        else
+                            alert("You have to reaname your file");
+                        // alert("successfully added");
+                    }
+                });
+
+
+            }
+            
+            
+        }
+    
+        function createFileFromDB(fileName){
+            // var newFileName = prompt("FileName: ");
+            var div = document.createElement("DIV");
+            div.innerHTML = '<i class="far fa-file"></i>' + fileName;
+            div.id = fileName;
+            div.className = "File";
+            div.onmouseover= function () {
+                // this.style.backgroundColor = "#efefef";
+                this.style.fontWeight = "bold";
+            };
+            div.onmouseout = function () {
+                // this.style.backgroundColor = "#ffffff";
+                this.style.fontWeight = "normal";
+            };
+            div.onclick = function(){
+                // globalId = this.attr('id');
+                globalId = this.getAttribute('id');
+                $(".File").removeClass('wrap-border');
+                filenames = '<i class="far fa-file"></i>' + globalId;
+                $(this).addClass('wrap-border');
+                $.ajax({
+                type: 'POST',
+                url: 'http://192.168.0.96:5000/showcode',
+                data: {
+                    filename : globalId
+                },
+                dataType : 'JSON',
+                success: function(data){
+                    $('#code').val(data.result);
+                    // $('#code').html(data.result);
+                    // alert("successfully load");
+                }
+            });
+            };
+            document.getElementById("defaultFolder").appendChild(div);
+        }
+        {% for file in flist %}
+            var fileNameDB = "{{ file }}"
+            createFileFromDB(fileNameDB);
+        {% endfor %}
+        function renameFile(){
+            var newName = prompt("Rename: ");
+            if (newName == "" || newName == null){
+                alert("try again");
+            }
+            else{
+                
+                
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://192.168.0.96:5000/renamefile',
+                    data: {
+                        filename:globalId,
+                        newname:newName
+                    },
+                    dataType : 'JSON',
+                    success: function(data){
+                        if(data.canCreate){
+                            document.getElementById(globalId).innerHTML = '<i class="far fa-file"></i>' + newName;
+                            document.getElementById(globalId).id = newName;
+                        }
+                        else
+                            alert("You have to reaname your file");
+                        // alert("successfully renamed");
+                    }
+                });
+            }
+            
+        }
+    
+        function deleteFile(){
+            document.getElementById(globalId).remove();
+            $.ajax({
+                type: 'POST',
+                url: 'http://192.168.0.96:5000/removefile',
+                data: {
+                    filename:globalId,
+                },
+                dataType : 'JSON',
+                success: function(){
+                    // alert("successfully deleted");
+                }
+            });
+        }
+</script>    
+{% endblock %}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Table of Contents</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="static/img/icons/favicon.ico"/>
+	<link rel="stylesheet" type="text/css" href="static/vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="static/vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" href="static/vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="static/vendor/perfect-scrollbar/perfect-scrollbar.css">
+	<link rel="stylesheet" type="text/css" href="static/css/util.css">
+	<link rel="stylesheet" type="text/css" href="static/css/main.css">
+	
+	<script src="//cdnjs.cloudflare.com/ajac/libs/jquery/3.2.1/jquery.min.js"></script>
+	
+
+</head>
+<body>
+
+<!-- {% extends "base.html" %}
+<link rel="icon" type="image/png" href="static/img/icons/favicon.ico"/>
+<link rel="stylesheet" type="text/css" href="static/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="static/vendor/animate/animate.css">
+<link rel="stylesheet" type="text/css" href="static/vendor/select2/select2.min.css">
+<link rel="stylesheet" type="text/css" href="static/vendor/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet" type="text/css" href="static/css/util.css">
+<link rel="stylesheet" type="text/css" href="static/css/main.css">
+{% block main %} -->
+	
+	<form action="/editor" method = "post">
+		<div class="limiter">
+			<div class="container-table100" id = "contents">
+				<div class="wrap-table100">
+						<div class="table" id="table">
+							<div class="row header">
+								<div class="cell">
+									OS
+								</div>
+								<div class="cell">
+									LANGUAGE
+								</div>
+								<div class="cell" >
+									VM IP
+								</div>
+								<div class="cell">
+									CHECK
+								</div>
+							</div>
+								{% for i in range(len) %}
+									<div class="row" >
+										<div class="cell">{{os[i]}}</div>
+										<div class="cell">{{language[i]}}</div>
+										<div class="cell" id={{vm_id[i]}} onclick="getvmIp(this)">{{vm_ip[i]}}</div>
+										<div><input name = "vm" type = "radio" id = {{i}} value = {{i}}></div>
+									</div>
+								{% endfor %}
+								<div class="text-right">
+									<button class="btn btn-indigo btn-lg" type="submit" name="create">create</button>
+									<button type='submit' name="start" class="btn btn-indigo btn-lg">Start</button>
+									<button type='submit' name="delete" class="btn btn-indigo btn-lg">delete</button>
+									
+								</div>
+							
+						</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	
+
+
+	
+
+
+<!--===============================================================================================-->
+	<script src="static/vendor/bootstrap/js/popper.js"></script>
+	<script src="static/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="static/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="static/js/main.js"></script>
+	<script>
+    // globalId = $(this).attr('id');
+    //     var globalId;
+		
+		
+		function getvmIp(e){
+			// alert("test");
+			vm_id = e.getAttribute('id');
+			// vm_id = $(this).attr('id');
+			vm_id2 = '#' + vm_id;
+			$.ajax({
+				type: 'POST',
+				url: 'http://localhost:5000/getip',
+				data: {vm_id: vm_id},
+				dataType : 'JSON',
+                success: function(data){
+					$(vm_id2).text(data.result);
+                },
+				error: function(result){
+					alert("please wait");
+				}
+			})
+		}
+	</script>
+<!-- {% endblock %} -->
+</body>
+</html>

@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Coding</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="{{ url_for('static', filename='css/mdb.min.css')}}" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href="{{ url_for('static', filename='css/style.min.css')}}" rel="stylesheet">
+  <style type="text/css">
+    html,
+    body,
+    header,
+    .view {
+      height: 100%;
+    }
+
+    @media (max-width: 740px) {
+      html,
+      body,
+      header,
+      .view {
+        height: 1000px;
+      }
+    }
+
+    @media (min-width: 800px) and (max-width: 850px) {
+      html,
+      body,
+      header,
+      .view {
+        height: 650px;
+      }
+    }
+    @media (min-width: 800px) and (max-width: 850px) {
+              .navbar:not(.top-nav-collapse) {
+                  background: #dfddc9!important;
+              }
+          }
+  </style>
+</head>
+
+
+
+  
+
+  <!-- Navbar -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      <!-- Brand -->
+      <a class="navbar-brand" href="http://localhost:5000/" target="_blank">
+        <strong>Coding</strong>
+      </a>
+
+      <!-- Collapse -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Links -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <!-- Left -->
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="http://localhost:5000/">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          
+
+          <li class="nav-item">
+            <a class="nav-link" href="http://localhost:5000/create">Create</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://localhost:5000/editor" target="_blank">Editor</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="https://mdbootstrap.com/education/bootstrap/" target="_blank">Free tutorials</a>
+          </li> -->
+          
+        </ul>
+        
+        <!-- Right -->
+
+        <ul class="navbar-nav nav-flex-icons">
+          <form action="http://localhost:5000/create" method = 'post'>
+            <input type = "submit" value = 'Logout' name = 'logout' />
+          </form>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+
+
+<div class="view full-page-intro">
+  <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+      <div class="container">
+          <!-- <div class="row wow fadeIn"> -->
+              <section>
+                  <style>
+                      .fa-play:before {
+                      margin-left: .3rem;
+                      }
+              
+                      /* Steps */
+                      .step {
+                      list-style: none;
+                      margin: 0;
+                      }
+              
+                      .step-element {
+                      display: flex;
+                      padding: 1rem 0;
+                      }
+              
+                      .step-number {
+                      position: relative;
+                      width: 8rem;
+                      flex-shrink: 0;
+                      text-align: center;
+                      }
+              
+                      .step-number .number {
+                      color: #bfc5ca;
+                      background-color: #eaeff4;
+                      font-size: 1.5rem;
+                      }
+              
+                      .step-number .number {
+                      width: 48px;
+                      height: 48px;
+                      line-height: 48px;
+                          }
+                  
+                      .number {
+                      display: inline-flex;
+                      justify-content: center;
+                      align-items: center;
+                      width: 38px;
+                      border-radius: 10rem;
+                      }
+              
+                      .step-number::before {
+                      content: '';
+                      position: absolute;
+                      left: 50%;
+                      top: 48px;
+                      bottom: -2rem;
+                      margin-left: -1px;
+                      border-left: 2px dashed #eaeff4;
+                      }
+              
+                      .step .step-element:last-child .step-number::before {
+                      bottom: 1rem;
+                      }
+                  </style>
+                  <h3 class="font-weight-bold text-center dark-grey-text pb-2">Create Your Own Environment</h3>
+                  <hr class="w-header my-4">
+                  <form action="/aftercreate" method="post">
+                      <p class="lead text-center text-muted pt-2 mb-5">사용할 OS와 언어를 고르세요.</p>
+              
+                          <div class="row align-items-center">
+                          
+                              <div class="col-lg-6 mb-4">
+                              <ol class="step pl-0">
+                                  <li class="step-element pb-0">
+                                  <div class="step-number">
+                                      <span class="number">1</span>
+                                  </div>
+                                  <div class="step-excerpt">
+                                      <h3 class="font-weight-bold dark-grey-text mb-3">Choose OS</h3>
+                                      <p class="text-muted">
+                                          <input type="radio" name="os" id="centos" value="centos">
+                                          <label for="centos">CentOS</label>
+                                          <input type="radio" name="os" id="ubuntu" value="ubuntu" checked="true">
+                                          <label for="ubuntu">Ubuntu</label>
+                                      </p>
+                                  </div>
+                                  </li>
+                                  <li class="step-element pb-0">
+                                  <div class="step-number">
+                                      <span class="number">2</span>
+                                  </div>
+                                  <div class="step-excerpt">
+                                      <h3 class="font-weight-bold dark-grey-text mb-3">Choose Language</h3>
+                                      <p class="text-muted">
+                                          <input type="radio" name="language" id="ccpp" value="ccpp" checked="true">
+                                          <label for="ccpp">C/C++</label>
+                                          <input type="radio" name="language" id="python" value="python">
+                                          <label for="python">Python3</label>
+                                      
+                                          
+                                      </p>
+                                  </div>
+                                  </li>
+                              </ol>
+                              </div>
+                          </div>
+                          <div class="text-right">
+                              <button type='submit' class="btn btn-indigo btn-lg">Start</button>
+                          </div>
+                  </form>
+                  
+                  
+                  
+              </section>
+          <!-- </div> -->
+      </div>
+  </div>
+</div>

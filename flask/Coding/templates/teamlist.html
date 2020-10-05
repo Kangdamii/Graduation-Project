@@ -1,0 +1,250 @@
+<link rel="icon" type="image/png" href="static/img/icons/favicon.ico"/>
+<!-- <link rel="stylesheet" type="text/css" href="static/vendor/bootstrap/css/bootstrap.min.css"> -->
+<link rel="stylesheet" type="text/css" href="static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="static/vendor/animate/animate.css">
+<link rel="stylesheet" type="text/css" href="static/vendor/select2/select2.min.css">
+<link rel="stylesheet" type="text/css" href="static/vendor/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet" type="text/css" href="static/css/util.css">
+<link rel="stylesheet" type="text/css" href="static/css/main.css">
+<style>
+    body {font-family: Arial, Helvetica, sans-serif;}
+    
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      padding-top: 100px; /* Location of the box */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+    
+    /* Modal Content */
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+    
+    /* The Close Button */
+    .close {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    </style>
+{% extends "base.html" %}
+{% block main %}
+<form action="/addteam", method="POST">
+<div id="myModal" class="modal">
+    <div class="modal-content">
+            <section>
+          
+              <div class="card card-list">
+                <div class="card-header white d-flex justify-content-between align-items-center py-3">
+                  <p class="h5-responsive font-weight-bold mb-0"><i class="fas fa-envelope pr-2"></i>Create New Team</p>
+                  <span class="close">&times;</span>
+                  <!-- <p class="h5-responsive font-weight-bold mb-0"><a><i class="fas fa-times"></i></a></p> -->
+                </div>
+                <div class="card-body">
+                  <input type="text" id="teamName" name="teamName" placeholder="Team Name" class="form-control rounded-0 mb-4">
+                  <textarea id="teamDescription" name="teamDescription" placeholder="Team Description" style="resize: none; width: 100%; height: 100px;"></textarea>
+                </div>
+
+                <div class="card-footer white py-3">
+                  <div class="text-right">
+                    <button class="btn btn-primary btn-md px-3 my-0 mr-0" type="submit">Create<i class="fas fa-plus"></i></button>
+                  </div>
+                </div>
+              </div>
+          
+            </section>
+    </div>
+</div>   
+</form>
+
+
+        <div class="limiter">
+            <div class="container-table100" id = "contents" style = "background-image: url(/static/img/background.png); background-size: cover;">
+                <div class="wrap-table100">
+                    <div><h2><i class="fas fa-users"></i>&nbsp;{{username}}'s TEAM list</h2></div><br>
+                    <div>&nbsp;*IF YOU WANT TO QUIT YOUR TEAM PLEASE PRESS DELETE BUTTON</div><br>
+                    <div>&nbsp;*IF YOU WANT TO COLLOBORATE WITH TEAM, PLEASE FIRST CHOOSE THE TEAM AND THEN PRESS COLLOBORATE BUTTON*</div><br>
+                    <div class="text-left"><button class="btn btn-indigo btn-lg" name="create" onclick="createTeam()">create New Team</button>
+                    <button class="btn btn-indigo btn-lg" name="delete" onclick="deleteTeam()">delete Team</button> </div>
+                    <div class="table" id="table">
+                        <div class="row header" style = "background-color:lightgrey">
+                            <div class="cell" style="width:260px">
+                                Team Name
+                            </div>
+                            <div class="cell" style="width:270px">
+                                Description
+                            </div>      
+                            <div class="cell" style="width:150px">
+                                #members
+                            </div> 
+                            <div class="cell"style="width:150px">
+                                Master
+                            </div> 
+                            <div class="cell"style="width:100px">
+                                Check
+                            </div>           
+                        </div>    
+                        <form action="/team" method = "post" name="team" id="team">               
+                        {% for i in range(teamlen) %}
+                        <div class="row" id={{teamlist[i]}}>
+                            <div class="cell" style="width:260px">{{teamlist[i]}}</div>
+                            <div class="cell" style="width:270px">{{descriptionlist[i]}}</div>
+                            <div class="cell" style="width:150px">{{memberlist[i]}}</div>
+                            <div class="cell" style="width:150px">{{masterlist[i]}}</div>
+                            <div class="cell" style="width:100px"><input type="radio" name = "teamName[]" value = {{teamlist[i]}} id = {{teamlist[i]}} onclick="getId(this)"></div>
+                        </div>
+                        {% endfor %}
+                        
+                        <div class="text-right">
+                            <input type="button" class="btn btn-indigo btn-lg" onclick="goTeam()" value="COLLABORATE">
+                            <!-- <button class="btn btn-indigo btn-lg" onclick="goTeam()">GO TEAM</button>                                  -->
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    
+
+<!--===============================================================================================-->
+    <script src="static/vendor/bootstrap/js/popper.js"></script>
+    <script src="static/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+    <script src="static/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+    <script src="static/js/main.js"></script>
+
+    <script type="text/javascript">
+        
+
+        var globalId
+        // modal
+
+        var modal = document.getElementById("myModal");
+        // var btn = document.getElementById("newDiscussion");
+        var span = document.getElementsByClassName("close")[0];
+
+        // when you click the createTeam button
+        function createTeam(){
+            modal.style.display = "block";
+        }
+        span.onclick = function(){
+            modal.style.display = "none";
+        }
+        window.onclick = function(event){
+            if(event.target == modal){
+                modal.style.display = "none";
+            }
+        }
+
+        // when you click the createTeam button in the modal window
+        // function newTeam(){
+        //     teamName = $('#teamName').val();
+        //     teamDescription = $('#teamDescription').val();
+        //     modal.style.display = "none";
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: 'http://192.168.0.96:5000/addteam',
+        //         data: {
+        //             teamName: teamName,
+        //             teamDescription: teamDescription
+        //         },
+        //         dataType: 'JSON',
+        //         success: function(data){
+        //             alert("created successfully");
+        //             window.location.reload(true);
+        //         }
+        //     });
+        // }
+        function getId(e){
+            globalId = e.getAttribute('id');
+        }
+        function goTeam(){
+            var tn= document.getElementsByName("teamName[]");
+            var sum = 0;
+            for(i=0; i<tn.length; i++){
+                if(tn[i].checked == true){
+                    sum += 1;
+                }
+            }
+            if(sum == 0){
+                alert("You MUST check one of your TEAM");
+                return false;
+            }
+            else{
+                document.team.submit();
+            }
+        }
+
+        function deleteTeam(){
+            teamName = globalId;
+            var tn= document.getElementsByName("teamName[]");
+            var sum = 0;
+            for(i=0; i<tn.length; i++){
+                if(tn[i].checked == true){
+                    sum += 1;
+                }
+            }
+            if(sum == 0){
+                alert("You MUST check one of your TEAM");
+                return false;
+            }
+            else{
+                $.ajax({
+                type: 'POST',
+                url: 'http://192.168.0.96:5000/deleteteam',
+                data: {
+                    teamName: teamName
+                },
+                dataType: 'JSON',
+                success: function(){
+                    var div_row = document.getElementById(teamName);
+                    div_row.remove();
+                    alert("delete successfully");
+                },
+                error: function(){
+                    alert("Master can delete team");
+                }
+            });
+            }
+            
+        }
+        function check(){
+            var sum = 0;
+            for(i=0; i<document.fm.teamName.length; i++){
+                if(document.fm.teamName[i].checked == true){
+                    sum += 1;
+                }
+            }
+            if(sum == 0){
+                alert("You MUST check one of your TEAM");
+                return false;
+            }
+            else{
+
+            }
+        }
+    </script>
+{% endblock %}

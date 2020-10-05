@@ -1,0 +1,155 @@
+
+
+    <link rel="icon" type="image/png" href="static/img/icons/favicon.ico"/>
+    <!-- <link rel="stylesheet" type="text/css" href="static/vendor/bootstrap/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="static/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="static/vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="static/vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" type="text/css" href="static/css/util.css">
+    <link rel="stylesheet" type="text/css" href="static/css/main.css">
+    {% extends "base.html" %}
+    {% block main %}
+        <form action="/editor" method = "post" name="infopage" id="infopage">
+            <div class="limiter" >
+                <div class="container-table100"  id = "contents" style = "background-image: url(/static/img/background.png); background-size: cover;">
+                    <div class="wrap-table100" >
+                        <div ><h2><i class="fas fa-desktop"></i>&nbsp;<b >{{u_id}}'s Virtual Machines list</b></h2></div><br>
+                        <div>&nbsp;<b >*IF YOU WANT TO CREATE NEW VIRTUAL ENVIRONMENT. PLEASE PRESS "CREATE" BUTTON*</b></div><br>
+                        
+                        <button class="btn btn-indigo btn-lg" type="submit" name="create">Create New VM</button>
+                           
+                        <div class="table" id="table" >
+                            <div class="row header" style = "background-color:lightgrey">
+                                <div class="cell" style="width:200px">
+                                    NAME
+                                </div>
+                                <div class="cell" style="width:150px">
+                                    OS
+                                </div>
+                                <div class="cell"style="width:150px"  >
+                                    LANGUAGE
+                                </div>
+                                <div class="cell"style="width:150px" >
+                                    CPU
+                                </div>
+                                <div class="cell"style="width:150px" >
+                                    DISK
+                                </div>
+                                <div class="cell"style="width:150px" >
+                                    CHECK
+                                </div>
+                            </div>
+                                {% for i in range(len) %}
+                                <div class="row" >
+                                    <div class="cell" style="width:200px">{{name[i]}}</div>
+                                    <div class="cell" style="width:150px">{{os[i]}}</div>
+                                    <div class="cell"style="width:150px">{{language[i]}}</div>
+                                    <div class="cell"style="width:160px">{{disk[i]}}</div>
+                                    <div class="cell"style="width:150px">{{cpu[i]}}</div>
+                                    <div class="cell"style="width:150px"><input type = "radio" name="vm[]" id = {{i}} value = {{vm_id[i]}}></div>        
+                                </div>
+                                {% endfor %}
+                                <input type="hidden" name="info" value="private"><br>
+                                <input type="hidden" name="delete" id="forDelete">
+                                <div>&nbsp;*IF YOU WANT TO GO/DELETE YOUR VM CHECK IT THEN PRESS "START/DELETE" BUTTON*</div><br>
+                                <div class="text-right">
+                                    <input type="button" name="delete" style = "margin-right: 10px" class="btn btn-indigo btn-lg" value="Delete" onclick="deletebtn()">
+                                    <input type="button" name="start" style = "margin-right: 15px" class="btn btn-indigo btn-lg" value="Start" onclick="startbtn()">
+                                    <!-- <button type='submit' name="delete" style = "margin-right: 10px" class="btn btn-indigo btn-lg">delete</button> -->
+                                    <!-- <button type ='submit' name="start" style = "margin-right: 15px"class="btn btn-indigo btn-lg">Start</button> -->
+                                    
+                                    
+                                </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        
+    
+    
+    <!--===============================================================================================-->
+        <script src="static/vendor/bootstrap/js/popper.js"></script>
+        <script src="static/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+        <script src="static/vendor/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+        <script src="static/js/main.js"></script>
+        <script type="text/javascript">
+        // globalId = $(this).attr('id');
+        //     var globalId;
+            // function startVm(){
+            //     vm_id = $('input[name=vm]').val();
+            //     // alert(vm_id)
+            //     $.ajax({
+            //         type: 'POST',
+            //         url: 'http://192.168.0.96:5000/startVm',
+            //         data: {vm_id: vm_id},
+            //         dataType : 'JSON',
+            //         success: function(){
+            //             alert("s");
+            //         },
+            //         error: function(){
+            //             alert("error"+error);
+            //         },
+            //         timeout: 200000
+            //     })
+            // }
+            function deletebtn(){
+                var tn= document.getElementsByName("vm[]");
+                var sum = 0;
+                for(i=0; i<tn.length; i++){
+                    if(tn[i].checked == true){
+                        sum += 1;
+                    }
+                }
+                if(sum == 0){
+                    alert("You MUST check one of VM");
+                    return false;
+                }
+                else{
+                    document.infopage.submit();
+                }
+            }
+            function startbtn(){
+                var tn= document.getElementsByName("vm[]");
+                var sum = 0;
+                for(i=0; i<tn.length; i++){
+                    if(tn[i].checked == true){
+                        sum += 1;
+                    }
+                }
+                if(sum == 0){
+                    alert("You MUST check one of VM");
+                    return false;
+                }
+                else{
+                    $("#forDelete").attr("name", "start");
+                    document.infopage.submit();
+                }
+            }
+            function getvmIp(e){
+                // alert("test");
+                vm_id = e.getAttribute('id');
+                // vm_id = $(this).attr('id');
+                vm_id2 = '#' + vm_id;
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://192.168.0.96:5000/getip',
+                    data: {vm_id: vm_id},
+                    dataType : 'JSON',
+                    success: function(data){
+                        $(vm_id2).text(data.result);
+                    },
+                    error: function(result){
+                        alert("please wait");
+                    }
+                })
+            }
+        </script>
+    {% endblock %}
+    <!-- </body>
+    </html> -->

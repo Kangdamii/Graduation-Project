@@ -1,0 +1,160 @@
+{% import "macro/forms.html" as cm with context %}
+
+<!DOCTYPE html>
+<html lang="en">
+<body style = "background-image: url('https://www.geoawesomeness.com/wp-content/uploads/2016/12/Macbook-Pro-Web-Map-Coding-Programming-Geoawesomeness.jpg');"></body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Coding</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="{{ url_for('static', filename='css/mdb.min.css')}}" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href="{{ url_for('static', filename='css/style.min.css')}}" rel="stylesheet">
+
+
+  <script src="//cdnjs.cloudflare.com/ajac/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <style type="text/css">
+    html,
+    body,
+    header,
+    .view {
+      height: 100%;
+    }
+
+    @media (max-width: 740px) {
+      html,
+      body,
+      header,
+      .view {
+        height: 1000px;
+      }
+    }
+
+    @media (min-width: 800px) and (max-width: 850px) {
+      html,
+      body,
+      header,
+      .view {
+        height: 650px;
+      }
+    }
+    @media (min-width: 800px) and (max-width: 850px) {
+              .navbar:not(.top-nav-collapse) {
+                  background: #dfddc9!important;
+              }
+          }
+  </style>
+</head>
+
+
+
+  
+
+  <!-- Navbar -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      <!-- Brand -->
+      <a class="navbar-brand" href="http://localhost:5000/" target="_blank">
+        <strong>Coding</strong>
+      </a>
+
+      <!-- Collapse -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Links -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <!-- Left -->
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="http://localhost:5000/">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="http://localhost:5000/create">Create</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://localhost:5000/editor" target="_blank">Editor</a>
+          </li>
+        </ul>
+              
+        <!-- Right -->
+        <ul class="navbar-nav nav-flex-icons">
+          <form action="http://localhost:5000/editor" method = 'post'>
+            <input style = "display:block" type = "submit" value = 'Logout' name = 'logout' />
+          </form>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+    <!-- Navbar -->
+   
+    {% block main %}
+    
+    {% endblock %}  
+  <!--Footer--> 
+  <footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+    <!--Copyright-->
+    <div class="footer-copyright py-3">
+      © 2020 Copyright:
+      <a href="https://mdbootstrap.com/education/bootstrap/" target="_blank"> Graduation Project 2020: Pada team </a>
+    </div>
+    <!--/.Copyright-->
+
+  </footer>
+
+  {% call cm.modal('id', 'Sign up') %}
+    <h5>You have registered successfully</h5>
+  {% endcall %}
+
+  <!--/.Footer-->
+
+  <!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="static/js/jquery-3.4.1.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="static/js/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="static/js/mdb.min.js"></script>
+  <!-- Initializations -->
+  <script type="text/javascript">
+    // Animations initialization
+    new WOW().init();
+
+    function openModal(modalId){
+        $('#' + modalId).modal('show');
+    }
+    function closeModal(modalId){
+        $('#' + modalId).modal('hide');
+    }
+    
+    //<button type="button" onclick="openModal('modalId')" class="btn btn-primary">Open Modal </button>
+    
+
+  </script>
+  <!-- function register() {
+    document.getElementById("").innerHTML = ""
+  } -->
+</body>
+
+</html>

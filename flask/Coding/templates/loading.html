@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" src="static/js/jquery-3.4.1.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+<!-- Bootstrap core CSS -->
+<link href="{{ url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="{{ url_for('static', filename='css/mdb.min.css')}}" rel="stylesheet">
+<!-- Your custom styles (optional) -->
+<link href="{{ url_for('static', filename='css/style.min.css')}}" rel="stylesheet">
+<style type="text/css" >
+
+    .wrap-loading{ /*화면 전체를 어둡게 합니다.*/
+        position: fixed;
+        left:0;    
+        right:0;
+        top:0;
+        bottom:0;
+        background: rgba(0,0,0,0.2); /*not in ie */
+        filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000',endColorstr='#20000000');
+    }
+
+    .wrap-loading div{ /*로딩 이미지*/
+        position: fixed;
+        top:50%;
+        left:50%;
+        margin-left: -21px;
+        margin-top: -21px;
+    }
+
+    .display-none{ /*감추기*/
+        display: block;
+    }
+    
+    </style>
+
+<body>  
+    <div class="wrap-loading display-none">
+        <div class = "row" style="margin-left: -130px"><b>A new virtual machine has been deploying</b></div>
+        <!-- <div class = "row">Virutal machine is starting...</div> -->
+        <div style="margin-left: -200px;"><img src="static/img/loading_1.gif" alt=""></div>
+    </div>
+    <form name= "start" id = "start" method = "post" action="/editor">
+    <input type="hidden" name="vm[]" value={{vmid}}>
+    <input type="hidden" name="info" value={{vminfo}}>
+    </form>
+
+</body>
+<!--===============================================================================================-->
+<script src="static/vendor/bootstrap/js/popper.js"></script>
+<script src="static/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="static/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="static/js/main.js"></script>
+<script>
+    this.document.getElementById("start").submit(); 
+    // document.start.submit();
+</script>
+</html>

@@ -1,0 +1,116 @@
+<!-- {% import "macro/forms.html" as cm with context %} -->
+{% extends "base.html" %}
+
+{% block main %}
+
+<div class="view full-page-intro">
+
+  <!-- Mask & flexbox options-->
+  <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+    <!-- Content -->
+    <div class="container">
+
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-4 white-text text-center text-md-left">
+
+          <h1 class="display-4 font-weight-bold">Make your own development environment</h1>
+
+          <hr class="hr-light">
+
+          <p>
+            <strong>Without using your computer resources</strong>
+          </p>
+
+          <p class="mb-4 d-none d-md-block">
+            <strong>You are able to run your code in this website. You can share your own environment with your colleague or students. Create your own code and make your own development environment.</strong>
+          </p>
+
+          <a target="_blank" href="https://mdbootstrap.com/education/bootstrap/" class="btn btn-indigo btn-lg">Start Coding
+            <i class="fas fa-graduation-cap ml-2"></i>
+          </a>
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-6 col-xl-5 mb-4">
+
+          <!--Card-->
+          <div class="card">
+
+            <!--Card content-->
+            <div class="card-body">
+              <!-- Default form login -->
+              <form class="text-center border border-light p-5" action = "{{url_for('registerPage')}}" method="POST">
+
+                <p class="h4 mb-4">Sign up</p>
+            
+                <div class="form-row mb-4">
+                    <div class="col">
+                        <!-- First name -->
+                        <input type="text" name = 'firstname' class="form-control" placeholder="First name">
+                    </div>
+                    <div class="col">
+                        <!-- Last name -->
+                        <input type="text" name = 'lastname'class="form-control" placeholder="Last name">
+                    </div>
+                </div>
+                <p><input type = "text" name = 'email' class="form-control" placeholder = "Email"/></p>
+                <!-- ID -->
+                <input type="text" name = 'username' class="form-control mb-4" placeholder="Username">
+                
+                <!-- Password -->
+                <input type="password" name = 'password' class="form-control" placeholder="Password" aria-describedby="defaultRegisterFormPasswordHelpBlock">
+                <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+                    At least 8 characters and 1 digit
+                </small>
+            
+                <!-- Phone number -->
+                <!-- <input type="text" id="defaultRegisterPhonePassword" class="form-control" placeholder="Phone number" aria-describedby="defaultRegisterFormPhoneHelpBlock">
+                <small id="defaultRegisterFormPhoneHelpBlock" class="form-text text-muted mb-4">
+                    Optional - for two step authentication
+                </small> -->
+            
+                <!-- Newsletter -->
+                <!-- <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="defaultRegisterFormNewsletter">
+                    <label class="custom-control-label" for="defaultRegisterFormNewsletter">Subscribe to our newsletter</label>
+                </div> -->
+            
+                <!-- Sign up button -->
+                <p><input type = "submit" value = "register" /></p>
+                
+  
+                <!-- Terms of service -->
+                <p>By clicking
+                    <em>Sign up</em> you agree to our
+                    <a href="" target="_blank">terms of service</a>
+            
+              </form>
+              <!-- Default form login -->
+              
+
+            </div>
+
+          </div>
+          <!--/.Card-->
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+    </div>
+    <!-- Content -->
+
+  </div>
+  <!-- Mask & flexbox options-->
+
+</div>
+
+{% endblock %}

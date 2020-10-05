@@ -1,0 +1,56 @@
+<!-- input, textarea, radio, checkbox, select, -->
+
+{% macro input(type='text', id='inp', name='inp', value='', class='') -%}
+<input type="{{type}}", id="{{id}}" name="{{name}}", value="{{value}}" class="form-control {{class}}">
+{%- endmacro %}
+
+{% macro textarea(id='', name='', rows='', class='') -%}
+<textarea id="{{id}}", name="{{name}}", rows="{{rows}}", class="form-control"></textarea>
+{%- endmacro %}
+
+<!-- modal
+<header></header>
+<body>
+    it's part to change -- it has to be caller()
+</body>
+<footer></footer> isShowFooter = It shows when it is True -->
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#basicExampleModal">
+    Launch demo modal
+  </button> -->
+  
+{% macro modal(id, title, isShowFooter=True) %}  
+  <!-- Modal -->
+  <div class="modal fade" id="{{id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="{{id}}">{{title}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{caller()}}
+        </div>
+        {% if isShowFooter %}
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+        <!-- <button type="button" onclick="{{okFunction}}" class="btn btn-primary">Save changes</button> -->
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+<!-- Usage
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal1">
+    Launch demo modal
+  </button>
+
+  {% call modal('modal1', '테스트 모달') %}
+    <h3>Modal body</h3>
+  {% endcall %} -->

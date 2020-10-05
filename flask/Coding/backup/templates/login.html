@@ -1,0 +1,159 @@
+<!-- {% import "macro/forms.html" as cm with context %} -->
+{% extends "base.html" %}
+
+{% block main %}
+
+<div class="view full-page-intro">
+  
+    <!-- Mask & flexbox options-->
+    <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+      
+      <!-- Content -->
+      <div class="container">
+
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+
+          <!--Grid column-->
+          <div class="col-md-6 mb-4 white-text text-center text-md-left">
+
+            <h1 class="display-4 font-weight-bold">Make your own development environment</h1>
+
+            <hr class="hr-light">
+
+            <p>
+              <strong>Without using your computer resources</strong>
+            </p>
+
+            <p class="mb-4 d-none d-md-block">
+              <strong>You are able to run your code in this website. You can share your own environment with your colleague or students. Create your own code and make your own development environment.</strong>
+            </p>
+
+            <a href="https://localhost:5000/create" class="btn btn-indigo btn-lg">Start Coding
+              <i class="fas fa-graduation-cap ml-2"></i>
+            </a>
+            
+          </div>
+          <!--Grid column-->
+          <script>
+            function checkLogin(){
+              var uid = get('username')
+                  upw = get('password')
+              console.log(">>>>>>", uid, upw)
+
+              var loginForm = document.getElementById('username');
+                  msg = document.getElementById('msg');
+                  err = document.getElementById('err');
+              if (uid === 'a' && upw === '1'){
+                loginForm.style.display = 'none';
+                msg.style.display = 'block';
+                err.style.display = 'none';
+              }
+              else{
+                loginForm.style.display = 'block';
+                err.style.display = 'block';
+              }
+
+              return false;
+            }
+
+          </script>
+          <!--Grid column-->
+          <div class="col-md-6 col-xl-5 mb-4">
+
+            <!--Card-->
+            <div class="card">
+
+              <!--Card content-->
+              <div class="card-body">
+                <!-- Default form login -->
+                <form id="username" class="text-center border border-light p-5" onsubmit="return checkLogin()" method="post">
+
+                  <p class="h4 mb-4">Sign in</p>
+
+                  <!-- Id -->
+                  <input type="text"  class="form-control mb-4" placeholder="Username" name = 'username'>
+
+                  <!-- Password -->
+                  <input type="password" class="form-control mb-4" placeholder="Password" name = 'password'>  
+                  <div class="form-row mb-4">
+                    <div class="col">
+                        <!-- Login -->
+                        <p><input style="font-family: Arial, Helvetica, sans-serif" type = "submit" value = 'login' name = 'login' /></p>
+                    </div>
+                  
+                </div>
+                  
+                  
+                  <!-- Sign in button -->
+                <!--- <button type = "submit"  class="btn btn-info btn-block my-4">Sign in </button>-->
+
+                  <!-- Register -->
+                  <p>Not a member?
+                    <!-- <button type="button" onclick="register()">Register</button> -->
+                    <input style="font-family: Arial, Helvetica, sans-serif" type = "submit" value = 'register' name = 'register' />
+                  </p>
+
+              
+                </form>
+                <!-- register form -->
+                <form id="register" class="text-center border border-light p-5" action="#!" style='display: none'>
+
+                  <p class="h4 mb-4">Sign up</p>
+              
+                  <div class="form-row mb-4">
+                      <div class="col">
+                          <!-- First name -->
+                          <input type="text" id="registerFirstName" class="form-control" placeholder="First name">
+                      </div>
+                      <div class="col">
+                          <!-- Last name -->
+                          <input type="text" id="registerLastName" class="form-control" placeholder="Last name">
+                      </div>
+                  </div>
+              
+                  <!-- ID -->
+                  <input type="text" id="registerID" class="form-control mb-4" placeholder="ID">
+              
+                  <!-- Password -->
+                  <input type="password" id="registerPassword" class="form-control" placeholder="Password" aria-describedby="defaultRegisterFormPasswordHelpBlock">
+                  <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+                      At least 8 characters and 1 digit
+                  </small>
+              
+                  
+              
+                  <!-- Sign up button -->
+                  <button onclick="openModal('id')" class="btn btn-info btn-block" type="button">Sign in</button>
+
+                  <!-- Terms of service -->
+                  <p>By clicking
+                      <em>Sign up</em> you agree to our
+                      <a href="" target="_blank">terms of service</a>
+              
+                </form>
+                <p id="msg" style="text-align: center; display: none;">반갑습니다. 김동환님</p>
+                <p id="err" style="text-align: center; display: none;">로그인 실패</p>
+                <!-- Default form login -->
+                
+
+              </div>
+
+            </div>
+            <!--/.Card-->
+
+          </div>
+          <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+
+      </div>
+      <!-- Content -->
+
+    </div>
+    <!-- Mask & flexbox options-->
+
+  </div>
+  
+{% endblock %}

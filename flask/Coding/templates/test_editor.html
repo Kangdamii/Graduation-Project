@@ -1,0 +1,287 @@
+<!-- It has to provide drag and drop function at sidevar
+It can load the codes that wrote priviously
+It shows the list of codes that users have -->
+
+<!-- {% extends "base.html" %} -->
+
+{% block main %}
+<body style="background-color:rgb(174, 184, 184);"></body>
+<style>
+    .sidebar{
+        /* width: 20%; */
+        margin-top: 70px;
+        margin-left: 60px;
+        /* background-color:burlywood; */
+    }
+    .box{
+        display: flex;
+    }
+    .File{
+        margin-left:15px;
+    }
+    .icon{
+        margin-right:10px;
+    }
+    i{
+        margin-right:2px;
+    }
+</style>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+<div style="display: flex;">
+    <header style="width:15%; text-align:left;">
+        <div class="sidebar">
+            <a class="logo-wrapper waves-effect">
+                <img src="static/img/computers.png" style="width:60px;height:60px;" class="img-fluid" alt="Coding">
+            </a>
+            <div class="row">
+                <span class="icon" onclick="createFile()"><i class="far fa-edit"></i>Create File</span>
+                <span class="icon" onclick="renameFile()"><i class="fas fa-pencil-alt"></i>Rename</span>
+                <span class="icon" onclick="deleteFile()"><i class="far fa-trash-alt"></i>Delete</span>
+                
+            </div>
+
+
+            <div class="row">
+                -------------------------------------------------------
+            </div>
+            <div class="row" id="test">
+                <div class="Folder" id="defaultFolder"><i class="far fa-folder"></i><b>{{uid}}</b>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main style="width: 75%; text-align:right; margin-top:70px">
+    <!-- <main class="mt-5 pt-4"> -->
+        <div class="container">
+            <div class="row">
+  
+                <!-- file tree view -->
+                <!-- code input -->
+                <div class="col-sm-6" style="margin-right: 10px; margin-left: -30px">
+                    <div id="filename" style="background-color:darkgray; text-align:left; width:80px"><i class="far fa-file"></i>
+                    </div>
+                    <textarea name="code" id="code" cols="60" rows="30"></textarea>
+                </div>
+                <!-- output -->
+
+                <div class="col-sm-6" style="margin-left: 10px;">
+                    <p><a><button class="btn btn-primary" onclick="runcode()" name = 'run' id ='run' type="submit">run
+                        <i class="fas fa-play" ></i></button></a></p>
+                    <textarea name="output" id="output" cols="60" rows="30" style="background-color:#000000; color:azure"></textarea>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+</div>
+
+
+
+<!-- <div style = "overflow:scroll" class="view full-page-intro">
+    <div class="container">
+        <div class="row">
+            <div calss="col-md-2">
+                <div class="row">
+                    <div class="icon" onclick="createFile()"><i class="far fa-edit"></i>Create File</div>
+                    <div class="icon" onclick="renameFile()"><i class="fas fa-pencil-alt"></i>Rename</div>
+                    <div class="icon" onclick="deleteFile()"><i class="far fa-trash-alt"></i>Delete</div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                
+            </div>
+            <div class="col-md-5">
+
+            </div>
+            
+            
+            <div class="Navigation" id="test">파일 목록
+                <div class="Folder" id="defaultFolder"><i class="far fa-folder"></i><b>username</b>
+                    
+                </div>
+                
+            </div>
+            <div>
+                <div class="text-right">
+                    <form action="/runcode" method="post">
+                        <p><button class="btn btn-primary" name = 'run' type="submit">run</button></p>
+                        <p><textarea rows='10' cols='100' style = "resize:none; color:#FFFFFF; background-color:#000000" name='code' id ='code'>{{code}}</textarea></p> 
+                    </form>
+                    <p><textarea rows='10' cols='100' style = "resize:none; color:#FFFFFF; background-color:#000000">{{code_result}}</textarea></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<script>
+    // globalId = $(this).attr('id');
+        var globalId;
+
+        function runcode(){
+            code = $("#code").val();
+            // alert(code);
+            $.ajax({
+                type: 'POST',
+                url: 'http://192.168.0.96:5000/runcode',
+                data: {
+                    filename : globalId,
+                    code: code
+                },
+                dataType : 'JSON',
+                success: function(data){
+                    document.getElementById("output").value = data.result;
+                    // $('#code').val(data.result);
+                    // text(data.result);
+                    // alert("successfully run");
+                }
+            });
+
+        }
+
+        function createFile(){
+            var newFileName = prompt("FileName: ");
+            if (newFileName =="" || newFileName == null){
+                alert("try again")
+            }
+            else{
+                var div = document.createElement("DIV");
+                div.innerHTML = '<i class="far fa-file"></i>' + newFileName;
+                div.id = newFileName;
+                div.className = "File";
+                
+                div.onmouseover= function () {
+                    this.style.backgroundColor = "#efefef";
+                };
+                div.onmouseout = function () {
+                    this.style.backgroundColor = "#ffffff";
+                };
+                div.onclick = function(){
+                    globalId = this.getAttribute('id');
+                    filenames = '<i class="far fa-file"></i>' + globalId;
+                    $("#filename").html(filenames);
+                    $.ajax({
+                    type: 'POST',
+                    url: 'http://192.168.0.96:5000/showcode',
+                    data: {
+                        filename : globalId
+                    },
+                    dataType : 'JSON',
+                    success: function(data){
+                        document.getElementById("code").value = data.result;
+                        // $('#code').val(data.result);
+                        // text(data.result);
+                        // alert("successfully load");
+                    }
+                });
+                            
+                };
+                
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://192.168.0.96:5000/addfile',
+                    data: {
+                        filename :newFileName
+                    },
+                    dataType : 'JSON',
+                    success: function(data){
+                        if(data.canCreate)
+                            document.getElementById("defaultFolder").appendChild(div);
+                        else
+                            alert("You have to reaname your file");
+                        // alert("successfully added");
+                    }
+                });
+
+
+            }
+            
+            
+        }
+    
+        function createFileFromDB(fileName){
+            // var newFileName = prompt("FileName: ");
+            var div = document.createElement("DIV");
+            div.innerHTML = '<i class="far fa-file"></i>' + fileName;
+            div.id = fileName;
+            div.className = "File";
+            div.onmouseover= function () {
+                this.style.backgroundColor = "#efefef";
+            };
+            div.onmouseout = function () {
+                this.style.backgroundColor = "#ffffff";
+            };
+            div.onclick = function(){
+                // globalId = this.attr('id');
+                globalId = this.getAttribute('id');
+                filenames = '<i class="far fa-file"></i>' + globalId;
+                $("#filename").html(filenames);
+                $.ajax({
+                type: 'POST',
+                url: 'http://192.168.0.96:5000/showcode',
+                data: {
+                    filename : globalId
+                },
+                dataType : 'JSON',
+                success: function(data){
+                    $('#code').val(data.result);
+                    // $('#code').html(data.result);
+                    // alert("successfully load");
+                }
+            });
+            };
+            document.getElementById("defaultFolder").appendChild(div);
+        }
+        {% for file in files %}
+            var fileNameDB = "{{ file }}"
+            createFileFromDB(fileNameDB);
+        {% endfor %}
+        function renameFile(){
+            var newName = prompt("Rename: ");
+            if (newName == "" || newName == null){
+                alert("try again");
+            }
+            else{
+                
+                
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://192.168.0.96:5000/renamefile',
+                    data: {
+                        filename:globalId,
+                        newname:newName
+                    },
+                    dataType : 'JSON',
+                    success: function(data){
+                        if(data.canCreate){
+                            document.getElementById(globalId).innerHTML = '<i class="far fa-file"></i>' + newName;
+                            document.getElementById(globalId).id = newName;
+                        }
+                        else
+                            alert("You have to reaname your file");
+                        // alert("successfully renamed");
+                    }
+                });
+            }
+            
+        }
+    
+        function deleteFile(){
+            document.getElementById(globalId).remove();
+            $.ajax({
+                type: 'POST',
+                url: 'http://192.168.0.96:5000/removefile',
+                data: {
+                    filename:globalId,
+                },
+                dataType : 'JSON',
+                success: function(){
+                    // alert("successfully deleted");
+                }
+            });
+        }
+</script>    
+{% endblock %}

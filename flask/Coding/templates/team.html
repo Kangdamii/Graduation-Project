@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="//cdnjs.cloudflare.com/ajac/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="static/js/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/mdb.min.css')}}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.min.css')}}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {font-family: Arial, Helvetica, sans-serif;}
+        
+        /* The Modal (background) */
+        .modal {
+          display: none; /* Hidden by default */
+          position: fixed; /* Stay in place */
+          z-index: 1; /* Sit on top */
+          padding-top: 100px; /* Location of the box */
+          left: 0;
+          top: 0;
+          width: 100%; /* Full width */
+          height: 100%; /* Full height */
+          overflow: auto; /* Enable scroll if needed */
+          background-color: rgb(0,0,0); /* Fallback color */
+          background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        
+        /* Modal Content */
+        .modal-content {
+          background-color: #fefefe;
+          margin: auto;
+          padding: 20px;
+          border: 1px solid #888;
+          width: 60%;
+        }
+        
+        .modal-content-manage {
+          background-color: #fefefe;
+          margin: auto;
+          padding: 20px;
+          border: 1px solid #888;
+          width: 40%;
+        }
+        /* The Close Button */
+        .close {
+          color: #aaaaaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+          color: #000;
+          text-decoration: none;
+          cursor: pointer;
+        }
+        </style>
+    <script src="//cdnjs.cloudflare.com/ajac/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<!-- Navbar -->
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand" href="http://192.168.0.96:5000/">
+      <strong>Coding</strong>
+    </a>
+
+    <!-- Collapse -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Links -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <!-- Left -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="http://192.168.0.96:5000/">Home
+            <!-- <span class="sr-only">(current)</span> -->
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="http://192.168.0.96:5000/info">User</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://192.168.0.96:5000/create">Create</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://192.168.0.96:5000/teamlist" >Team</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="https://mdbootstrap.com/education/bootstrap/" target="_blank">Free tutorials</a>
+        </li> -->
+        
+      </ul>
+      
+      <!-- Right -->
+
+      <ul class="navbar-nav nav-flex-icons" id="logininfo">
+        <li class="nav-item">
+          <i class="fas fa-user"></i>&nbsp;{{username}}&nbsp;
+        </li>
+      </ul>
+      <ul class="navbar-nav nav-flex-icons" id="logoutbtn">
+        <li class="nav-item">
+          <form action="http://192.168.0.96:5000/logout" method="post">
+            <button type="submit" id="logout" class="btn btn-light">Logout</button>
+          </form>
+        </li>
+      </ul>
+      <script type="text/javascript">
+        var loginflag = {{loginflag}};
+            if (loginflag == 1){
+              $("#logininfo").css("display", "block");
+              $("#logoutbtn").css("display", "block");
+            }
+            else{
+              $("#logininfo").css("display", "none");
+              $("#logoutbtn").css("display", "none");
+            }
+      </script>
+
+    </div>
+  </div>
+</nav>
+<body>
+    <!-- Discussion Modal -->
+    <div id="discussionModal" class="modal">
+        <div class="modal-content">
+            
+    
+                <!-- Section: Block Content -->
+                <section>
+              
+                  <div class="card card-list">
+                    <div class="card-header white d-flex justify-content-between align-items-center py-3">
+                      <p class="h5-responsive font-weight-bold mb-0"><i class="far fa-edit"></i>New Discussion</p>
+                      <span class="close">&times;</span>
+                      <!-- <p class="h5-responsive font-weight-bold mb-0"><a><i class="fas fa-times"></i></a></p> -->
+                    </div>
+                    <div class="card-body">
+                      <input type="text" id="subject" placeholder="Subject" class="form-control rounded-0 mb-4">
+                      <textarea name="message" id="context" placeholder="Content" style="resize: none; width: 100%; height: 100px;"></textarea>
+                    </div>
+                    <div class="card-footer white py-3">
+                      <div class="text-right">
+                        <button class="btn btn-primary btn-md px-3 my-0 mr-0" onclick="submit()">Submit<i class="fas fa-paper-plane pl-2"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </section> 
+        </div>
+    </div>
+    <!-- End Discussion Modal -->
+
+    <!-- Add User Modal gotta be fixed size!!! -->
+    <div id="addUserModal" class="modal">
+      <div class="modal-content">
+          
+  
+              <!-- Section: Block Content -->
+              <section>
+            
+                <div class="card card-list">
+                  <div class="card-header white d-flex justify-content-between align-items-center py-3">
+                    <p class="h5-responsive font-weight-bold mb-0"><i class="fas fa-user-plus"></i>Add user</p>
+                    <span class="close">&times;</span>
+                    <!-- <p class="h5-responsive font-weight-bold mb-0"><a><i class="fas fa-times"></i></a></p> -->
+                  </div>
+                  <div class="card-body">
+                    <input type="text" id="userID" placeholder="user ID" class="form-control rounded-0 mb-4" />
+                    <!-- <textarea name="message" id="context" style="resize: none; width: 100%; height: 100px;"></textarea> -->
+                  </div>
+                  <div class="card-footer white py-3">
+                    <div class="text-right">
+                      <button class="btn btn-primary btn-md px-3 my-0 mr-0" onclick="inviteUser()">Invite<i class="fas fa-paper-plane pl-2"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </section> 
+      </div>
+  </div>
+  <!-- End Add User Modal -->
+
+  <!-- Manage User Modal gotta be fixed size!!! -->
+  <div id="manageUserModal" class="modal">
+    <div class="modal-content-manage">
+      <section>
+    
+        <div class="card card-list">
+          <div class="card-header white d-flex justify-content-between align-items-center py-3">
+            <p class="h5-responsive font-weight-bold mb-0"><i class="fas fa-users"></i>Manage user</p>
+            <span class="close">&times;</span>
+            <!-- <p class="h5-responsive font-weight-bold mb-0"><a><i class="fas fa-times"></i></a></p> -->
+          </div>
+          <div class="card-body">
+            <!-- <input type="text" id="userID" placeholder="user ID" class="form-control rounded-0 mb-4" />
+            <textarea name="message" id="context" style="resize: none; width: 100%; height: 100px;"></textarea> -->
+            <div class="row" id="memberlist" style="margin-left: 20px">
+              
+            {% for member in userlist %}
+              <div class="cell" style="width: 170px" id = {{member}}><i class="fas fa-user-alt"></i>&nbsp;{{member}}&nbsp;&nbsp;<a><i id={{member}} class="fas fa-times" onclick="deleteUser(this)"></i></a></div>
+            {% endfor %}
+            </div>
+          </div>
+          <div class="card-footer white py-3">
+            
+          </div>
+        </div>
+      </section> 
+    </div>
+  </div>
+<!-- End Manage User Modal -->
+
+    <div class="container my-5" style="padding-top: 50px">
+        <h1 class="font-weight-bold text-center dark-grey-text pb-2">@{{teamname}}</h1><br>
+        <h3 class="font-weight-bold text-center dark-grey-text pb-2">{{desc}}</h3>
+        
+        <div class="row"><h3>Teammates &nbsp;<a><i onclick="addUser()" class="fas fa-user-plus"></i></a></h3></div>
+        <div class="row">
+            
+            <div class="col md-10">
+              <div class="row" >
+              {% for i in range(ulen) %}
+                <div class="cell" id = {{userlist[i]}} style="width: 100px">{{userlist[i]}}</div></a>
+              {% endfor %}
+            </div>
+            </div>
+            
+            <div class="col md-2">
+              <!-- <button type = "submit" name="adduser" onclick="addUser()">Add more</button></div> -->
+            </div>
+            
+        </div>
+        <div class="row"><a style="color: rgb(19, 144, 228)" onclick="manageMembers()" id="managemembers">Manage members ></a></div><br><br>
+
+        <div class="row"><h3>Team's Developement Environment</h3></div>
+        <input type='hidden' id = 'username' value = {{username}}>
+        <input type='hidden' id = 'mastername' value = {{masterid}}>
+        <div class="row" >
+          <div class="cell" style="width: 200px"><b>Name</b></div></a>
+          <div class="cell" style="width: 150px"><b>OS</b> </div></a>
+          <div class="cell" style="width: 150px"><b>Language</b></div></a>
+          <div class="cell" style="width: 200px"><b>Disk</b></div></a>
+          <div class="cell" style="width: 200px" ><b>CPU</b></div></a>
+          <div class="cell" style="width: 50px">Check</div>
+        </div>
+        <hr style="margin-left: -30px;">
+        <form action="/editor" method = "post">
+          <input type="hidden" name = "teamname" value = {{teamname}}>
+          {% for j in range(vlen) %}
+ 
+            <div class="row" >
+              <div class="cell" style="width: 200px">{{vmname[j]}}</div>
+              <div class="cell" style="width: 150px">{{vmos[j]}}</div>
+              <div class="cell" style="width: 150px">{{vmlang[j]}}</div>
+              <div class="cell" style="width: 200px">{{vmdisk[j]}}</div>
+              <div class="cell" style="width: 200px" >{{vmcpu[j]}}</div>
+              <div class="cell" style="width: 50px"><input type="radio" name="vm[]" value={{vmid[j]}}></div>
+            </div>
+            
+            <input type="hidden" name="info" value="public">
+          
+          {% endfor %}
+          <br>
+          <div class = "row" style="text-align: center;">
+            <button class="btn btn-indigo btn-lg" type = "submit" name="start">go</button>
+            <button class="btn btn-indigo btn-lg" type = "submit" name="deleteteamvm" id="deletebtn">delete</button>
+          </div>
+          <br>
+        </form>
+
+        <form action="/teamvmcreate" method = "post">
+        <input type="hidden" name="teamName" id="q" value={{teamname}}>
+        <div><button class="btn btn-indigo btn-lg" type='submit' name="create" id="createbtn">create new environment</button></div><br>
+        <script type="text/javascript">
+          var master = document.getElementById('mastername').value;
+          var username = document.getElementById('username').value;
+          if(master == username){
+            $("#managemembers").css("display", "block");
+            $("#deletebtn").css("display", "block");
+            $("#createbtn").css("display", "block");
+          }
+          else{
+            $("#managemembers").css("display", "none");
+            $("#deletebtn").css("display", "none");
+            $("#createbtn").css("display", "none");
+          }
+            
+        </script>
+      </form>
+        <div class="row"><h3>Discussion Boards&nbsp;<a><i class="far fa-edit" onclick="newDiscussion()"></i></a></h3></div>
+        <div id="discussionList">
+          <div class="row">
+            <div style = "width: 150px;">User ID</div>
+            <div style = "width: 200px;">Subejct</div>
+            <div>Content</div>
+          </div>
+          <hr style="margin-left: -30px;">
+          {% for k in range(plen)%}
+          
+          <div class="row" id = {{subjectlist[k]}}>
+            <div style = "width: 150px;"><i class="fas fa-user"></i>&nbsp;{{writerlist[k]}}</div>
+            <div style = "width: 200px;">{{subjectlist[k]}}</div>
+            <div>{{contentslist[k]}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a><i onclick="deleteDiscussion(this)" id = {{k}} class="fas fa-times"></i></a></div>
+          </div>
+          {% endfor %}
+        </div>
+<!-- 
+        <div><button onclick="newDiscussion()">new discussion</button></div> -->
+    </div>
+</body>
+<script>
+  // tinymce.init({ selector:'#post_content', menubar: false, height : "294" });
+
+  var discussion_modal = document.getElementById("discussionModal");
+  var addUser_modal = document.getElementById("addUserModal");
+  var manageUser_modal = document.getElementById("manageUserModal");
+  var btn = document.getElementById("newDiscussion");
+  var span = document.getElementsByClassName("close")[0];
+  var span2 = document.getElementsByClassName("close")[1];
+  var span3 = document.getElementsByClassName("close")[2];
+
+  function addUser(){
+    addUser_modal.style.display = "block";
+  }
+  function newDiscussion(){
+    discussion_modal.style.display = "block";
+  }
+  function manageMembers(){
+    manageUser_modal.style.display = "block";
+  }
+  span.onclick = function(){
+    discussion_modal.style.display = "none";
+  }
+  span2.onclick = function(){
+    addUser_modal.style.display = "none";
+  }
+  span3.onclick = function(){
+    manageUser_modal.style.display = "none";
+  }
+  window.onclick = function(event){
+    if(event.target == discussion_modal || event.target == addUser_modal || event.target == manageUser_modal){
+        discussion_modal.style.display = "none";
+        addUser_modal.style.display = "none";
+        manageUser_modal.style.display = "none";
+    }
+  }
+
+  
+  function inviteUser(){
+    userID = document.getElementById("userID").value;
+    teamName = document.getElementById("q").value;
+    addUser_modal.style.display = "none";
+    document.getElementById("userID").value = null;
+    $.ajax({
+      type: 'POST',
+      url: 'http://192.168.0.96:5000/invite',
+      data: {
+        userID: userID,
+        teamName: teamName
+      },
+      dataType: 'JSON',
+      success: function(){
+        alert("Sent!");
+      },
+      error : function(error){
+        alert(request.status+error);
+      }
+    });
+  }
+
+  function submit(){
+    var subject = document.getElementById("subject").value;
+    var context = document.getElementById("context").value;
+    var teamName = document.getElementById("q").value;
+    var writer = document.getElementById('username').value;
+    document.getElementById("subject").value = null;
+    document.getElementById("context").value = null;
+    discussion_modal.style.display = "none";
+    $.ajax({
+      type: 'POST',
+      url: 'http://192.168.0.96:5000/addpost',
+      data: {
+        subject: subject,
+        context: context,
+        teamName: teamName,
+        writer: writer
+      },
+      dataType: 'JSON',
+      success: function(){
+        var row_div = document.createElement("DIV");
+        var writer_div = document.createElement("DIV");
+        var subject_div = document.createElement("DIV");
+        var context_div = document.createElement("DIV");
+        writer_div.innerHTML = '<i class="fas fa-user"></i>&nbsp;' + writer;
+        writer_div.style = "width: 150px";
+        subject_div.innerHTML = subject;
+        subject_div.style = "width: 200px";
+        context_div.innerHTML = context + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a><i class="fas fa-times"></i></a>';
+        row_div.className="row";
+        row_div.appendChild(writer_div);
+        row_div.appendChild(subject_div);
+        row_div.appendChild(context_div);
+        row_div.id = subject;
+        document.getElementById("discussionList").appendChild(row_div);
+        alert("Done!");
+      }
+    });
+  }
+
+  function deleteUser(e){
+    teamUser = e.getAttribute('id');
+    teamName = document.getElementById("q").value;
+    $.ajax({
+      type: 'POST',
+      url: 'http://192.168.0.96:5000/deleteUser',
+      data:{
+        teamUser: teamUser,
+        teamName: teamName
+      },
+      dataType: 'JSON',
+      success: function(){
+        $("#"+teamUser).remove();
+        $("#"+teamUser).remove();
+        alert("successfully deleted");
+      },
+      error: function(){
+        alert("fail");
+      }
+    });
+  }
+
+  function deleteVm(e){
+    vmID = e.getAttribute('id');
+    $.ajax({
+      type: 'POST',
+      url: 'http://192.168.0.96:5000/teamvmDelete',
+      data: {
+          vmID: vmID
+      },
+      dataType: 'JSON',
+      success: function(){
+          alert("delete successfully");
+      },
+      error: function(){
+          alert("Only master can delete ");
+      }
+    });
+        }
+
+  function deleteDiscussion(e){
+    dIDX = e.getAttribute('id');
+    teamName = document.getElementById("q").value;
+    $.ajax({
+      type: 'POST',
+      url: 'http://192.168.0.96:5000/deletepost',
+      data: {
+        dIDX: dIDX,
+        teamName: teamName
+      },
+      dataType: 'JSON',
+      success: function(data){
+        subject = data.result;
+        // document.getElementById(subject).remove();
+        $("#"+subject).remove();
+        alert("successfully deleted!");
+      },
+      error: function(){
+        alert("Only Writer can delete");
+      }
+      });
+  }
+
+  
+</script>
+</html>
